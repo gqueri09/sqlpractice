@@ -1,1 +1,84 @@
+-- IN THIS PRACTICE I USED:
+-- GROUP BY and ORDER BY STATEMENTS
+-- SUM(), AVG(), ROUND(), CONCAT(), and COUNT() FUNCTIONS
+-- "=", ">", "!=" EXPRESSIONS
+
+
+--HOW MANY PASSENGERS WERE THERE IN EACH CLASS
+SELECT Pclass, COUNT(*) FROM titanic AS Total Passengers
+GROUP BY Pclass
+ORDER BY Pclass; 
+
+--WHAT WAS THE AVERAGE AGE OF PASSENGERS IN EACH CLASS
+SELECT Pclass as "Passenger Class", ROUND(avg(Age), 2) as "Average Age" 
+FROM titanic
+GROUP BY Pclass
+ORDER BY Pclass;
+
+--WHAT WAS THE SURVIVAL RATE FOR EACH CLASS
+SELECT 	Pclass as "Passenger Class", 
+ROUND((SUM(survived)/COUNT(survived)*100),2) as "Survival Rate"
+FROM titanic
+GROUP BY Pclass
+ORDER BY Pclass;
+ 
+
+--WHAT WAS THE SURVIVAL RATE BY GENDER
+SELECT Sex, ROUND((SUM(Survived)/COUNT(*)*100)  ,2) AS "Survival Rate"
+FROM titanic
+GROUP BY Sex;
+ 
+--WHAT WAS THE AVERAGE FARE PAID BY PASSENGERS IN EACH CLASS
+SELECT 	Pclass as "Passenger Class", ROUND(AVG(Fare),2) as "Average Fare Paid"
+FROM titanic
+GROUP BY Pclass
+ORDER BY Pclass;
+ 
+
+--IDENTIFY THE 10 PASSENGERS WHO PAID THE HIGHEST FARES
+SELECT 	Name, Fare FROM titanic
+ORDER BY FARE DESC
+LIMIT 10;
+
+
+--WHAT WAS THE AVERAGE AGE OF SURVIVORS VS NON-SURVIVORS
+SELECT ROUND(AVG(Age) ,2) as "Average age", Survived  FROM titanic
+GROUP BY Survived;
+ 
+--HOW MANY CHILDREN AGE 18 BELOW WERE THERE ONBOARD AND WHAT WAS THE SURVIVAL RATE
+SELECT
+COUNT(Age) AS "Number of passengers ages 18 below ", 
+CONCAT(ROUND((SUM(Survived)/COUNT(*)*100), 2), "%") AS "Survival Rate of Ages 18 below" 
+FROM titanic
+WHERE Age < 18 and Age > 0 ;
+ 
+--HOW MANY PASSENGERS EMBARKED FROM EACH PORT (C, Q, S)
+SELECT Embarked, COUNT(Embarked) FROM titanic
+WHERE Embarked != ""
+GROUP BY Embarked;
+ 
+
+--WHAT WAS THE SURVIVAL RATE FOR PASSENGERS EMBARKED FROM EACH PORT
+SELECT Embarked, CONCAT(ROUND((SUM(Survived)/COUNT(*)*100), 2), "%") as "Survival Rate per Each Port" 
+FROM titanic
+WHERE Embarked != ""
+GROUP BY Embarked
+ORDER BY Embarked;
+
+
+--WHAT WAS THE DISTRIBUTUTON OF MALE AND FEMALE PASSENGERS ACROSS DIFFERENT CLASSES
+SELECT Sex, COUNT(Sex) FROM titanic
+GROUP BY Sex;
+ 
+
+--COMPARE THE SURVIVAL RATE OF MALES AND FEMAILS WITHIN EACH CLASS
+SELECT Pclass, Sex, CONCAT(ROUND((SUM(Survived)/COUNT(*)*100), 2), "%") AS "Survival per Gender"
+FROM titanic
+GROUP BY Pclass, Sex
+ORDER BY Pclass, Sex;
+
+
+--HOW MANY PASSENGERS HAD CABIN INFROMATION RECORDED
+SELECT COUNT(Cabin) FROM titanic
+WHERE Cabin != "";
 
