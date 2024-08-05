@@ -1,5 +1,0 @@
--- HOW MANY PASSENGERS WERE THERE IN EACH CLASS
-
-SELECT Pclass, COUNT(*) FROM titanic AS Total Passengers
-GROUP BY Pclass
-ORDER BY Pclass; 
